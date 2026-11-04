@@ -17,7 +17,6 @@ public class LectorArchivos {
                 numeroLinea++;
                 String linea = scanner.nextLine().trim();
 
-                // Ignorar líneas vacías o comentarios que empiecen con #
                 if (linea.isEmpty() || linea.startsWith("#")) {
                     continue;
                 }
@@ -29,7 +28,7 @@ public class LectorArchivos {
                     int cantidadVertices = Integer.parseInt(partes[0].trim());
                     nuevoGrafo = new Grafo(cantidadVertices);
                 } 
-                // Si tiene 2 valores, es una arista (origen, destino)
+
                 else if (partes.length == 2) {
                     if (nuevoGrafo == null) {
                         throw new IllegalArgumentException(
@@ -39,7 +38,6 @@ public class LectorArchivos {
                     int origen = Integer.parseInt(partes[0].trim());
                     int destino = Integer.parseInt(partes[1].trim());
 
-                    // Evitamos que tire excepción si en el txt pusieron dos veces la misma arista
                     if (!nuevoGrafo.existeArista(origen, destino) && origen != destino) {
                         nuevoGrafo.agregarArista(origen, destino);
                     }

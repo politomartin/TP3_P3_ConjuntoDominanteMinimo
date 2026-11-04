@@ -1,4 +1,4 @@
-package auxiliares;
+package interfaz;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,7 +15,6 @@ public class Graphics_2D extends JPanel {
     private Set<Integer> conjuntoDominante;
     private Integer verticeSeleccionado;
     
-    // Datos de la última ejecución para mostrar en el lienzo
     private String infoAlgoritmo = "";
     private String infoTiempo = "";
 

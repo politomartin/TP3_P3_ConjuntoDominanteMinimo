@@ -32,6 +32,10 @@ public class AlgoritmosCDM {
     public static Set<Integer> resolverBacktracking(Grafo g) throws InterruptedException {
         Thread.sleep(700);
         
+        if (Thread.currentThread().isInterrupted()) {
+            return null;
+        }
+        
         Set<Integer> resultado = new HashSet<>();
         // TODO: Implementar Backtracking exacto
         if (!g.obtenerVertices().isEmpty()) {

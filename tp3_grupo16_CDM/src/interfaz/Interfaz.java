@@ -1,12 +1,13 @@
 package interfaz;
 
-import java.awt.EventQueue;
 import java.awt.Font;
+import java.io.File;
+
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import auxiliares.Graphics_2D;
-import controlador.Controlador;
+import javax.swing.JOptionPane;
 
 public class Interfaz {
 
@@ -19,21 +20,6 @@ public class Interfaz {
     private JButton btnElegirEjecucion;
     private JLabel lblEstado;
     private Graphics_2D panelGrafo;
-
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    javax.swing.UIManager.setLookAndFeel(javax.swing.UIManager.getSystemLookAndFeelClassName());
-                    Interfaz window = new Interfaz();
-                    new Controlador(window);
-                    window.mostrar();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
 
     public Interfaz() {
         initialize();
@@ -83,7 +69,37 @@ public class Interfaz {
         frame.getContentPane().add(btnElegirEjecucion);
     }
 
-    public void mostrar() { frame.setVisible(true); }
+    public void mostrar(){
+    	frame.setVisible(true);
+    }
+    
+    public void mostrarAdvertencia(String mensaje) {
+        JOptionPane.showMessageDialog(frame, mensaje, "Atención", JOptionPane.WARNING_MESSAGE);
+    }
+    
+    public void mostrarError(String titulo, String mensaje) {
+        javax.swing.JOptionPane.showMessageDialog(frame, mensaje, titulo, javax.swing.JOptionPane.ERROR_MESSAGE);
+    }
+    
+    public void aplicarModoVisual( presenter.ModoEdicion modo ) {
+        btnCrearVertice.setText(modo == presenter.ModoEdicion.CREAR_VERTICE ? modo.getTextoBoton() : "Crear Nuevo Vértice");
+        btnEliminarVertice.setText(modo == presenter.ModoEdicion.ELIMINAR_VERTICE ? modo.getTextoBoton() : "Eliminar Vértice");
+        btnCrearArista.setText(modo == presenter.ModoEdicion.CREAR_ARISTA ? modo.getTextoBoton() : "Crear Nueva Arista");
+        btnEliminarArista.setText(modo == presenter.ModoEdicion.ELIMINAR_ARISTA ? modo.getTextoBoton() : "Eliminar Arista");
+        lblEstado.setText(modo.getMensajeEstado());
+        panelGrafo.setCursor(modo.getCursorAsociado());
+    }
+    
+    public File seleccionarArchivoTxt() {
+        JFileChooser fc = new JFileChooser();
+        fc.setDialogTitle("Seleccionar archivo de grafo (.txt)");
+        fc.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Archivos de texto (*.txt)", "txt"));
+        if (fc.showOpenDialog(frame) == JFileChooser.APPROVE_OPTION) {
+            return fc.getSelectedFile();
+        }
+        return null;
+    }
+    
     public JFrame getFrame() { return frame; }
     public JButton getBtnCrearVertice() { return btnCrearVertice; }
     public JButton getBtnEliminarVertice() { return btnEliminarVertice; }

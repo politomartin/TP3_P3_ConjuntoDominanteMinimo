@@ -1,6 +1,9 @@
 package interfaz;
 
 import java.awt.Font;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
@@ -82,6 +85,66 @@ public class DialogoEjecucion extends JDialog {
         btnAplicarAlGrafo.setBounds(200, 365, 280, 35);
         getContentPane().add(btnAplicarAlGrafo);
     }
+    
+    public List<String> obtenerAlgoritmosSeleccionados() {
+        List<String> seleccionados = new ArrayList<>();
+        if (chkGolosoGrado.isSelected()) seleccionados.add("Goloso 1 (Mayor Grado)");
+        if (chkGolosoCobertura.isSelected()) seleccionados.add("Goloso 2 (Cobertura)");
+        if (chkBacktracking.isSelected()) seleccionados.add("Backtracking (Exacto)");
+        return seleccionados;
+    }
+    
+    public void mostrarAvance(double avance, String estado) {
+        barraProgreso.setValue((int) avance);
+        barraProgreso.setString(String.format("%.0f%%", avance));
+        lblEstadoProgreso.setText(estado);
+    }
+    
+    public void agregarFilaResultado(String nombre, int tamano, String conjunto, double tiempoMs) {
+        modeloTabla.addRow(new Object[]{
+            nombre, tamano, conjunto, String.format("%.3f ms", tiempoMs)
+        });
+    }
+    
+    public void prepararInicioEjecucion(int cantidadAlgoritmos) {
+        modeloTabla.setRowCount(0);
+        btnIniciarEjecucion.setEnabled(false);
+        btnDetener.setEnabled(true);
+        barraProgreso.setIndeterminate(false);
+        barraProgreso.setValue(0);
+        barraProgreso.setString("0%");
+        lblEstadoProgreso.setText("Ejecutando " + cantidadAlgoritmos + " algoritmo(s) en paralelo...");
+    }
+    
+    public void marcarEjecucionCancelada() {
+        btnIniciarEjecucion.setEnabled(true);
+        btnDetener.setEnabled(false);
+        barraProgreso.setValue(0);
+        barraProgreso.setString("Cancelado");
+        lblEstadoProgreso.setText("Ejecución detenida por el usuario.");
+    }
+    
+    public void marcarEjecucionCompletada() {
+        btnIniciarEjecucion.setEnabled(true);
+        btnDetener.setEnabled(false);
+        barraProgreso.setValue(100);
+        barraProgreso.setString("100% Completado");
+        lblEstadoProgreso.setText("Ejecución finalizada. Seleccione una fila para verla en el grafo.");
+    }
+    
+    public int obtenerFilaSeleccionada() {
+        return tablaResultados.getSelectedRow();
+    }
+    
+    public void seleccionarFila(int fila) {
+        tablaResultados.setRowSelectionInterval(fila, fila);
+    }
+
+    public void mostrarMensaje(String mensaje) {
+        JOptionPane.showMessageDialog(this, mensaje);
+    }
+    
+    
 
     public JCheckBox getChkGolosoGrado(){ 
     	return chkGolosoGrado; 
