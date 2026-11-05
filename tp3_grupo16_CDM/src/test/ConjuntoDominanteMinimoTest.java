@@ -121,6 +121,23 @@ public class ConjuntoDominanteMinimoTest {
         assertTrue("Debe incluir el centro de la componente 1", dominante.contains(c1_centro));
         assertTrue("Debe incluir el vértice aislado", dominante.contains(aislado));
     }
+    
+    @Test
+    public void testGrafoConTresVerticesAislados() {
+        Grafo g = new Grafo();
+        
+        int v0 = g.agregarVertice();
+        int v1 = g.agregarVertice();
+        int v2 = g.agregarVertice();
+       
+
+        Set<Integer> dominante = solver.resolver(g);
+
+        assertEquals(3, dominante.size());
+        assertTrue(dominante.contains(v0));
+        assertTrue(dominante.contains(v1));
+        assertTrue(dominante.contains(v2));
+    }
 
     @Test(expected = IllegalArgumentException.class)
     public void testGrafoNuloLanzaExcepcion() {

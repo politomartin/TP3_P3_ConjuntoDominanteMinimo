@@ -82,6 +82,12 @@ public class GrafoTest {
 	public void aristasDeVerticeEliminadoTest() {
         grafo.agregarArista(0, 2);
         grafo.agregarArista(2, 3);
+        grafo.eliminarVertice(2);
+        
+        assertFalse(grafo.existeVertice(2));
+     
+        assertFalse(grafo.vecinos(0).contains(2));
+        assertFalse(grafo.vecinos(3).contains(2));
 	}
 	
 	@Test

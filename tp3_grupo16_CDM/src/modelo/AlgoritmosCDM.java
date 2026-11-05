@@ -45,13 +45,8 @@ public class AlgoritmosCDM {
         return mejor;
     }
     
-    private static void buscarBacktracking(
-    	    Grafo g,
-    	    List<Integer> vertices,
-    	    int indice,
-    	    Set<Integer> actual,
-    	    Set<Integer> mejor
-    	    ) throws InterruptedException {
+    private static void buscarBacktracking(Grafo g, List<Integer> vertices,int indice, Set<Integer> actual,Set<Integer> mejor) 
+    		throws InterruptedException {
     	
     	 if (g == null) {
     	        throw new IllegalArgumentException("El grafo no puede ser nulo.");
