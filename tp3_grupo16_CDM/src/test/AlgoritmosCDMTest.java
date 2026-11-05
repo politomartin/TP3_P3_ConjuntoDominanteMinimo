@@ -44,10 +44,8 @@ public class AlgoritmosCDMTest {
 		 
         Grafo g = new Grafo();
         
-        // v0 será el centro de la estrella
         int centro = g.agregarVertice(); 
         
-        // Hojas
         int h1 = g.agregarVertice();
         int h2 = g.agregarVertice();
         int h3 = g.agregarVertice();
@@ -136,14 +134,12 @@ public class AlgoritmosCDMTest {
 	    public void testGrafoDesconectado() throws InterruptedException {
 	        Grafo g = new Grafo();
 	        
-	        // Componente 1: Estrella (v0 conectado a v1 y v2)
 	        int c1_centro = g.agregarVertice();
 	        int c1_h1 = g.agregarVertice();
 	        int c1_h2 = g.agregarVertice();
 	        g.agregarArista(c1_centro, c1_h1);
 	        g.agregarArista(c1_centro, c1_h2);
 
-	        // Componente 2: Vértice aislado (v3)
 	        int aislado = g.agregarVertice();
 
 	        Set<Integer> resultado = AlgoritmosCDM.resolverBacktracking(g);

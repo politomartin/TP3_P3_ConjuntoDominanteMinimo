@@ -1,6 +1,6 @@
 package presenter;
 
-import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import javax.swing.SwingWorker;
@@ -20,7 +20,7 @@ public class WorkerEjecucionParalela extends SwingWorker<Boolean, ResultadoCorri
         this.algoritmosSeleccionados = algoritmosSeleccionados;
         this.grafo = grafo;
         this.presenter = presenter;
-        this.hilosActivos = new ArrayList<>();
+        this.hilosActivos = new CopyOnWriteArrayList<>();
         this.completados = new AtomicInteger(0);
     }
 
@@ -28,18 +28,25 @@ public class WorkerEjecucionParalela extends SwingWorker<Boolean, ResultadoCorri
     protected Boolean doInBackground() {
         int total = algoritmosSeleccionados.size();
 
-        // 1. Lanzamos un Thread independiente por cada algoritmo seleccionado
         for (String nombreAlg : algoritmosSeleccionados) {
+       
+        	 if (isCancelled()) {
+        	        return false;
+        	    }
+        	 
             TareaAlgoritmo tarea = new TareaAlgoritmo(nombreAlg, grafo, resultado -> {
                 publish(resultado);
             });
-
+            
             Thread hilo = new Thread(tarea);
             hilosActivos.add(hilo);
             hilo.start();
+            
+            if (isCancelled()) {
+                hilo.interrupt();
+            }
         }
 
-        // 2. Sincronizamos esperando a que todos terminen mediante join()
         for (Thread hilo : hilosActivos) {
             try {
                 hilo.join();
@@ -67,6 +74,9 @@ public class WorkerEjecucionParalela extends SwingWorker<Boolean, ResultadoCorri
 
     @Override
     protected void process(List<ResultadoCorrida> chunks) {
+    	if (isCancelled()) {
+    	    return;
+    	}
         int total = algoritmosSeleccionados.size();
         for (ResultadoCorrida res : chunks) {
             int terminados = completados.incrementAndGet();

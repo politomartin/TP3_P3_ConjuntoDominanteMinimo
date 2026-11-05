@@ -13,7 +13,7 @@ public class GrafoTest {
 	
 	@Before
     public void setUp() {
-        grafo = new Grafo(4); // Vértices 0, 1, 2, 3
+        grafo = new Grafo(4);
     }
 	
 	@Test(expected = IllegalArgumentException.class)

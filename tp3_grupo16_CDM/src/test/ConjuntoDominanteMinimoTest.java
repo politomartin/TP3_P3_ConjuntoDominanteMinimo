@@ -31,7 +31,7 @@ public class ConjuntoDominanteMinimoTest {
     @Test
     public void testVerticeAisladoEsDominante() {
         Grafo g = new Grafo();
-        int v0 = g.agregarVertice(); // Retorna 0
+        int v0 = g.agregarVertice();
 
         Set<Integer> dominante = solver.resolver(g);
 
@@ -43,10 +43,8 @@ public class ConjuntoDominanteMinimoTest {
     public void testGrafoEstrellaEligeNodoCentral() {
         Grafo g = new Grafo();
         
-        // v0 será el centro de la estrella
         int centro = g.agregarVertice(); 
         
-        // Hojas
         int h1 = g.agregarVertice();
         int h2 = g.agregarVertice();
         int h3 = g.agregarVertice();
@@ -69,7 +67,6 @@ public class ConjuntoDominanteMinimoTest {
         int v2 = g.agregarVertice();
         int v3 = g.agregarVertice();
 
-        // K4: Todos conectados entre sí
         g.agregarArista(v0, v1); g.agregarArista(v0, v2); g.agregarArista(v0, v3);
         g.agregarArista(v1, v2); g.agregarArista(v1, v3);
         g.agregarArista(v2, v3);
@@ -83,7 +80,7 @@ public class ConjuntoDominanteMinimoTest {
     @Test
     public void testGrafoCamino() {
         Grafo g = new Grafo();
-        // Camino de 5 nodos: n0 - n1 - n2 - n3 - n4
+        
         int n0 = g.agregarVertice();
         int n1 = g.agregarVertice();
         int n2 = g.agregarVertice();
@@ -105,14 +102,12 @@ public class ConjuntoDominanteMinimoTest {
     public void testGrafoDesconectado() {
         Grafo g = new Grafo();
         
-        // Componente 1: Estrella (v0 conectado a v1 y v2)
         int c1_centro = g.agregarVertice();
         int c1_h1 = g.agregarVertice();
         int c1_h2 = g.agregarVertice();
         g.agregarArista(c1_centro, c1_h1);
         g.agregarArista(c1_centro, c1_h2);
 
-        // Componente 2: Vértice aislado (v3)
         int aislado = g.agregarVertice();
 
         Set<Integer> dominante = solver.resolver(g);

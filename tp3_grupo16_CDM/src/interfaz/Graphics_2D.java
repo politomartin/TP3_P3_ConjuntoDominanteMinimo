@@ -37,7 +37,6 @@ public class Graphics_2D extends JPanel {
 
     public void moverVertice(int id, int nuevoX, int nuevoY) {
         if (posicionesVertices.containsKey(id)) {
-            // Limitar para que no se salga de los bordes del panel
             int x = Math.max(RADIO + 5, Math.min(getWidth() - RADIO - 5, nuevoX));
             int y = Math.max(RADIO + 5, Math.min(getHeight() - RADIO - 5, nuevoY));
             posicionesVertices.put(id, new Point(x, y));
@@ -86,10 +85,6 @@ public class Graphics_2D extends JPanel {
         repaint();
     }
 
-    /**
-     * Distribuye los vértices con un radio dinámico: si hay pocos vértices quedan
-     * cerca del centro; si hay muchos se expande gradualmente.
-     */
     public void distribuirVerticesEnCirculo(Set<Integer> vertices) {
         posicionesVertices.clear();
         int n = vertices.size();
@@ -101,7 +96,6 @@ public class Graphics_2D extends JPanel {
         int centroX = getWidth() / 2;
         int centroY = getHeight() / 2;
 
-        // Radio adaptable: para 6 vértices usa ~130px en lugar de 270px
         int radioMaximo = Math.min(centroX, centroY) - 60;
         int radioIdeal = Math.max(95, n * 22);
         int radioCirculo = (n == 1) ? 0 : Math.min(radioIdeal, radioMaximo);
@@ -134,7 +128,6 @@ public class Graphics_2D extends JPanel {
 
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        // 1. Dibujar las aristas
         g2d.setStroke(new BasicStroke(2.2f));
         g2d.setColor(new Color(90, 90, 90));
         for (Map.Entry<Integer, Set<Integer>> entrada : adyacencias.entrySet()) {
@@ -153,7 +146,6 @@ public class Graphics_2D extends JPanel {
             }
         }
 
-        // 2. Dibujar los vértices
         g2d.setFont(new Font("SansSerif", Font.BOLD, 14));
         FontMetrics fm = g2d.getFontMetrics();
 
@@ -164,13 +156,12 @@ public class Graphics_2D extends JPanel {
             int xTopLeft = p.x - RADIO;
             int yTopLeft = p.y - RADIO;
 
-            // Color según estado: Naranja (seleccionado), Verde (es parte del CDM), Celeste (normal)
             if (verticeSeleccionado != null && verticeSeleccionado == id) {
                 g2d.setColor(new Color(255, 195, 100));
             } else if (conjuntoDominante.contains(id)) {
-                g2d.setColor(new Color(102, 217, 138)); // Verde CDM
+                g2d.setColor(new Color(102, 217, 138)); 
             } else {
-                g2d.setColor(new Color(173, 216, 230)); // Celeste estándar
+                g2d.setColor(new Color(173, 216, 230));
             }
             g2d.fillOval(xTopLeft, yTopLeft, DIAMETRO, DIAMETRO);
 
@@ -185,7 +176,6 @@ public class Graphics_2D extends JPanel {
             g2d.drawString(texto, p.x - (textoAncho / 2), p.y + (textoAlto / 3));
         }
 
-        // 3. Dibujar recuadro con resultados y tiempo de ejecución si existe
         if (!infoAlgoritmo.isEmpty()) {
             g2d.setFont(new Font("SansSerif", Font.BOLD, 13));
             FontMetrics fmInfo = g2d.getFontMetrics();

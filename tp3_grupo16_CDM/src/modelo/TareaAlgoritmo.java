@@ -19,41 +19,39 @@ public class TareaAlgoritmo implements Runnable {
 
     @Override
     public void run() {
-        if (Thread.interrupted()) {
-            return;
-        }
-
-        long inicio = System.nanoTime();
-        Set<Integer> solucion = null;
-
-        if (nombreAlgoritmo.startsWith("Goloso 1")) {
-            try {
-				solucion = AlgoritmosCDM.resolverGolosoMayorGrado(grafo);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-        } else if (nombreAlgoritmo.startsWith("Goloso 2")) {
-            try {
-				solucion = AlgoritmosCDM.resolverGolosoCobertura(grafo);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-        } else {
-            try {
-				solucion = AlgoritmosCDM.resolverBacktracking(grafo);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-        }
-
-        long fin = System.nanoTime();
-        double tiempoMs = (fin - inicio) / 1_000_000.0;
 
         if (Thread.currentThread().isInterrupted()) {
             return;
         }
 
-        ResultadoCorrida resultado = new ResultadoCorrida(nombreAlgoritmo, solucion, tiempoMs);
-        callbackAlTerminar.accept(resultado);
+        long inicio = System.nanoTime();
+        Set<Integer> solucion;
+
+        try {
+            if (nombreAlgoritmo.contains("Goloso")) {
+                solucion = AlgoritmosCDM.resolverGoloso(grafo);
+            } else if (nombreAlgoritmo.contains("Backtracking")) {
+                solucion = AlgoritmosCDM.resolverBacktracking(grafo);
+            } else {
+                throw new IllegalArgumentException(
+                    "Algoritmo desconocido: " + nombreAlgoritmo
+                );
+            }
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            return;
+        }
+        
+        if (Thread.currentThread().isInterrupted()) {
+            return;
+        }
+
+        long fin = System.nanoTime();
+
+        double tiempoMs = (fin - inicio) / 1_000_000.0;
+
+        callbackAlTerminar.accept(
+            new ResultadoCorrida(nombreAlgoritmo, solucion, tiempoMs)
+        );
     }
 }

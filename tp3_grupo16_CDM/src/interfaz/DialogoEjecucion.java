@@ -9,8 +9,7 @@ import javax.swing.table.DefaultTableModel;
 
 public class DialogoEjecucion extends JDialog {
 
-    private JCheckBox chkGolosoGrado;
-    private JCheckBox chkGolosoCobertura;
+    private JCheckBox chkGoloso;
     private JCheckBox chkBacktracking;
     private JButton btnIniciarEjecucion;
     private JButton btnDetener;
@@ -32,19 +31,14 @@ public class DialogoEjecucion extends JDialog {
         lblTitulo.setBounds(20, 15, 450, 20);
         getContentPane().add(lblTitulo);
 
-        chkGolosoGrado = new JCheckBox("Algoritmo Goloso 1 (Por mayor grado)");
-        chkGolosoGrado.setSelected(true);
-        chkGolosoGrado.setBounds(20, 42, 300, 25);
-        getContentPane().add(chkGolosoGrado);
-
-        chkGolosoCobertura = new JCheckBox("Algoritmo Goloso 2 (Por mayor cantidad de vecinos no dominados)");
-        chkGolosoCobertura.setSelected(true);
-        chkGolosoCobertura.setBounds(20, 68, 430, 25);
-        getContentPane().add(chkGolosoCobertura);
+        chkGoloso = new JCheckBox("Goloso (Mayor cobertura)");
+        chkGoloso.setSelected(true);
+        chkGoloso.setBounds(20, 42, 300, 25);
+        getContentPane().add(chkGoloso);
 
         chkBacktracking = new JCheckBox("Algoritmo Backtracking (Solución exacta óptima)");
         chkBacktracking.setSelected(true);
-        chkBacktracking.setBounds(20, 94, 350, 25);
+        chkBacktracking.setBounds(20, 68, 350, 25);
         getContentPane().add(chkBacktracking);
 
         btnIniciarEjecucion = new JButton("Ejecutar Seleccionados");
@@ -88,8 +82,7 @@ public class DialogoEjecucion extends JDialog {
     
     public List<String> obtenerAlgoritmosSeleccionados() {
         List<String> seleccionados = new ArrayList<>();
-        if (chkGolosoGrado.isSelected()) seleccionados.add("Goloso 1 (Mayor Grado)");
-        if (chkGolosoCobertura.isSelected()) seleccionados.add("Goloso 2 (Cobertura)");
+        if (chkGoloso.isSelected()) seleccionados.add("Goloso (Mayor cobertura)");
         if (chkBacktracking.isSelected()) seleccionados.add("Backtracking (Exacto)");
         return seleccionados;
     }
@@ -146,12 +139,8 @@ public class DialogoEjecucion extends JDialog {
     
     
 
-    public JCheckBox getChkGolosoGrado(){ 
-    	return chkGolosoGrado; 
-    }
-    
-    public JCheckBox getChkGolosoCobertura(){
-    	return chkGolosoCobertura;
+    public JCheckBox getChkGoloso(){ 
+    	return chkGoloso; 
     }
     
     public JCheckBox getChkBacktracking(){

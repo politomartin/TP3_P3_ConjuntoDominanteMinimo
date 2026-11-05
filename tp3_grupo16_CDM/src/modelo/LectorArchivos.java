@@ -23,7 +23,6 @@ public class LectorArchivos {
 
                 String[] partes = linea.split(",");
 
-                // Si tiene 1 solo valor y aún no creamos el grafo, es la cantidad de vértices
                 if (partes.length == 1 && nuevoGrafo == null) {
                     int cantidadVertices = Integer.parseInt(partes[0].trim());
                     nuevoGrafo = new Grafo(cantidadVertices);

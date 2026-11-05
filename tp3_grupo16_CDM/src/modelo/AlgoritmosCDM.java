@@ -8,28 +8,22 @@ import grafo.Grafo;
 
 public class AlgoritmosCDM {
 
-    public static Set<Integer> resolverGolosoMayorGrado(Grafo g) throws InterruptedException {
-    	Set<Integer> resultado = new HashSet<>();
-    	if(Thread.interrupted()) {
-    		return resultado;
-    	}
-        return ConjuntoDominanteMinimo.resolver(g);
-    }
-
-    public static Set<Integer> resolverGolosoCobertura(Grafo g) throws InterruptedException {
-        Thread.sleep(300);
-        
-        Set<Integer> resultado = new HashSet<>();
-        // TODO: Implementar heurística golosa 2
-        if (!g.obtenerVertices().isEmpty()) {
-            resultado.add(g.obtenerVertices().iterator().next());
+ 
+    public static Set<Integer> resolverGoloso(Grafo g) throws InterruptedException {
+        if (g == null) {
+            throw new IllegalArgumentException("El grafo no puede ser nulo.");
         }
-        return resultado;
+        if (Thread.currentThread().isInterrupted()) {
+            throw new InterruptedException("Goloso interrumpido");
+        }
+        return ConjuntoDominanteMinimo.resolver(g);
     }
 
     public static Set<Integer> resolverBacktracking(Grafo g)
             throws InterruptedException {
-
+    	if (g == null) {
+    	    throw new IllegalArgumentException("El grafo no puede ser nulo.");
+    	}
         
     	List<Integer> vertices = new ArrayList<>(g.obtenerVertices());
 
@@ -47,10 +41,6 @@ public class AlgoritmosCDM {
     
     private static void buscarBacktracking(Grafo g, List<Integer> vertices,int indice, Set<Integer> actual,Set<Integer> mejor) 
     		throws InterruptedException {
-    	
-    	 if (g == null) {
-    	        throw new IllegalArgumentException("El grafo no puede ser nulo.");
-    	    }
     	 
     	if (Thread.currentThread().isInterrupted()) {
     	    throw new InterruptedException("Backtracking interrumpido");
